@@ -22,9 +22,10 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: src-tauri
+          workspaces: tauri/src-tauri
 
       - name: Install frontend dependencies
+        working-directory: tauri
         run: npm ci
 
       - name: Build Tauri app
@@ -32,6 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          projectPath: tauri
           tagName: ${{ github.ref_name }}
           releaseName: "DCS Backup & Restore ${{ github.ref_name }}"
           releaseBody: "Download the `.msi` or `.exe` installer below."
